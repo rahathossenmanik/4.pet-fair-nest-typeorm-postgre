@@ -1,24 +1,27 @@
 require('dotenv').config({ path: '.env' });
 import { Module } from '@nestjs/common';
-import { MongooseModule } from '@nestjs/mongoose';
 import { AuthorsController } from 'src/controllers/authors.controller';
-import { AuthorSchema } from 'src/schemas/authors.schema';
 import { AuthorService } from 'src/services/authors.service';
 import { BooksController } from 'src/controllers/books.controller';
 import { BookService } from 'src/services/books.service';
-import { BookSchema } from 'src/schemas/books.schema';
-
-const mongo_uri = process.env.DATABASE_URL;
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { Author } from 'src/entities/authors.entity';
+import { Book } from 'src/entities/books.entity';
+import { DataSource } from 'typeorm';
 
 @Module({
   imports: [
-    MongooseModule.forRoot(mongo_uri),
-    MongooseModule.forFeature([
-      { name: 'Author', schema: AuthorSchema },
-      { name: 'Book', schema: BookSchema }
-    ])
+    TypeOrmModule.forRoot({
+      type: 'postgres',
+      url: 'postgres://postgres:admin@localhost/mern-mvc-crud',
+      entities: [Author, Book],
+      synchronize: true
+    }),
+    TypeOrmModule.forFeature([Author, Book])
   ],
   controllers: [AuthorsController, BooksController],
   providers: [AuthorService, BookService]
 })
-export class AppModule {}
+export class AppModule {
+  constructor(private dataSource: DataSource) {}
+}

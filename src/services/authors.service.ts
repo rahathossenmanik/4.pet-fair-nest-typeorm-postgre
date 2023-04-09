@@ -1,36 +1,40 @@
 import { Injectable } from '@nestjs/common';
-import { InjectModel } from '@nestjs/mongoose';
-import { Model } from 'mongoose';
-import { Author, AuthorDocument } from 'src/schemas/authors.schema';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Author } from 'src/entities/authors.entity';
+import { Repository } from 'typeorm';
 
 @Injectable()
 export class AuthorService {
+  // constructor(
+  //   @InjectModel(Author.name)
+  //   private authorModel: Model<AuthorDocument>
+  // ) {}
   constructor(
-    @InjectModel(Author.name)
-    private authorModel: Model<AuthorDocument>
+    @InjectRepository(Author)
+    private AuthorsRepository: Repository<Author>
   ) {}
 
   async findAll(): Promise<Author[]> {
-    return this.authorModel.find().exec();
+    return this.AuthorsRepository.find();
   }
 
-  async findById(id: string): Promise<Author> {
-    return this.authorModel.findById(id).exec();
+  async findById(id: number): Promise<Author> {
+    return this.AuthorsRepository.findOneBy({ id });
   }
 
-  async create(author: Author): Promise<Author> {
-    const createdAuthor = new this.authorModel(author);
-    return createdAuthor.save();
-  }
+  // async create(author: Author): Promise<Author> {
+  //   const createdAuthor = new this.AuthorsRepository(author);
+  //   return createdAuthor.save();
+  // }
 
-  async update(id: string, author: Author): Promise<Author> {
-    await this.authorModel.findByIdAndUpdate(id, author);
-    return this.authorModel.findById(id).exec();
-  }
+  // async update(id: string, author: Author): Promise<Author> {
+  //   await this.AuthorsRepository.findByIdAndUpdate(id, author);
+  //   return this.AuthorsRepository.findById(id).exec();
+  // }
 
-  async delete(id: string): Promise<Author> {
-    const deletedAuthor = await this.authorModel.findById(id).exec();
-    await this.authorModel.findByIdAndRemove(id).exec();
+  async delete(id: number): Promise<Author> {
+    const deletedAuthor = await this.AuthorsRepository.findOneBy({ id });
+    await this.AuthorsRepository.delete(id);
     return deletedAuthor;
   }
 }

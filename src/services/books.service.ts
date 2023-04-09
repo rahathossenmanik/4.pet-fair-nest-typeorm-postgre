@@ -1,36 +1,40 @@
 import { Injectable } from '@nestjs/common';
-import { InjectModel } from '@nestjs/mongoose';
-import { Model } from 'mongoose';
-import { Book, BookDocument } from 'src/schemas/books.schema';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Book } from 'src/entities/books.entity';
+import { Repository } from 'typeorm';
 
 @Injectable()
 export class BookService {
+  // constructor(
+  //   @InjectModel(Book.name)
+  //   private bookModel: Model<BookDocument>
+  // ) {}
   constructor(
-    @InjectModel(Book.name)
-    private bookModel: Model<BookDocument>
+    @InjectRepository(Book)
+    private BooksRepository: Repository<Book>
   ) {}
 
   async findAll(): Promise<Book[]> {
-    return this.bookModel.find().exec();
+    return this.BooksRepository.find();
   }
 
-  async findById(id: string): Promise<Book> {
-    return this.bookModel.findById(id).exec();
+  async findById(id: number): Promise<Book> {
+    return this.BooksRepository.findOneBy({ id });
   }
 
-  async create(book: Book): Promise<Book> {
-    const createdBook = new this.bookModel(book);
-    return createdBook.save();
-  }
+  // async create(book: Book): Promise<Book> {
+  //   const createdBook = new this.BooksRepository(book);
+  //   return createdBook.save();
+  // }
 
-  async update(id: string, book: Book): Promise<Book> {
-    await this.bookModel.findByIdAndUpdate(id, book);
-    return this.bookModel.findById(id).exec();
-  }
+  // async update(id: string, book: Book): Promise<Book> {
+  //   await this.BooksRepository.findByIdAndUpdate(id, book);
+  //   return this.BooksRepository.findById(id).exec();
+  // }
 
-  async delete(id: string): Promise<Book> {
-    const deletedBook = await this.bookModel.findById(id).exec();
-    await this.bookModel.findByIdAndRemove(id).exec();
+  async delete(id: number): Promise<Book> {
+    const deletedBook = await this.BooksRepository.findOneBy({ id });
+    await this.BooksRepository.delete(id);
     return deletedBook;
   }
 }

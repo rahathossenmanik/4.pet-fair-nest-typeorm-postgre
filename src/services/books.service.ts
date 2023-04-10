@@ -5,10 +5,6 @@ import { Repository, UpdateResult } from 'typeorm';
 
 @Injectable()
 export class BookService {
-  // constructor(
-  //   @InjectModel(Book.name)
-  //   private bookModel: Model<BookDocument>
-  // ) {}
   constructor(
     @InjectRepository(Book)
     private BooksRepository: Repository<Book>

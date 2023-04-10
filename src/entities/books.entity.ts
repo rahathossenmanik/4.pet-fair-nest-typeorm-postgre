@@ -1,4 +1,4 @@
-import { Entity, Column, PrimaryGeneratedColumn, OneToOne, JoinColumn } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, JoinColumn, ManyToOne } from 'typeorm';
 import { Author } from 'src/entities/authors.entity';
 
 @Entity()
@@ -12,7 +12,7 @@ export class Book {
   @Column()
   genre: string;
 
-  @OneToOne(() => Author)
+  @ManyToOne(() => Author)
   @JoinColumn()
   author: Author;
 

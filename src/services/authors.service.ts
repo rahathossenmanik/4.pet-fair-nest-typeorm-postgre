@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Author } from 'src/entities/authors.entity';
-import { Repository } from 'typeorm';
+import { Repository, UpdateResult } from 'typeorm';
 
 @Injectable()
 export class AuthorService {
@@ -23,14 +23,12 @@ export class AuthorService {
   }
 
   async create(author: Author): Promise<Author> {
-    // const createdAuthor = this.AuthorsRepository();
     return this.AuthorsRepository.save(author);
   }
 
-  // async update(id: string, author: Author): Promise<Author> {
-  //   await this.AuthorsRepository.findByIdAndUpdate(id, author);
-  //   return this.AuthorsRepository.findById(id).exec();
-  // }
+  async update(id: string, author: Author): Promise<UpdateResult> {
+    return this.AuthorsRepository.update(id, author);
+  }
 
   async delete(id: number): Promise<Author> {
     const deletedAuthor = await this.AuthorsRepository.findOneBy({ id });

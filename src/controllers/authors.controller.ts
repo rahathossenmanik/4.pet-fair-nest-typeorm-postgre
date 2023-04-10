@@ -23,10 +23,10 @@ export class AuthorsController {
     return this.authorsService.create(author);
   }
 
-  // @Put(':id')
-  // update(@Param('id') id: string, @Body() author: Author) {
-  //   return this.authorsService.update(id, author);
-  // }
+  @Put(':id')
+  update(@Param('id') id: string, @Body() author: Author) {
+    return this.authorsService.update(id, author);
+  }
 
   @Delete(':id')
   delete(@Param('id') id: number) {

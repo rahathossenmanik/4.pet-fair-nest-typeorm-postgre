@@ -18,15 +18,15 @@ export class BooksController {
     return this.booksService.findById(id);
   }
 
-  // @Post()
-  // create(@Body() book: Book) {
-  //   return this.booksService.create(book);
-  // }
+  @Post()
+  create(@Body() book: Book) {
+    return this.booksService.create(book);
+  }
 
-  // @Put(':id')
-  // update(@Param('id') id: string, @Body() book: Book) {
-  //   return this.booksService.update(id, book);
-  // }
+  @Put(':id')
+  update(@Param('id') id: string, @Body() book: Book) {
+    return this.booksService.update(id, book);
+  }
 
   @Delete(':id')
   delete(@Param('id') id: number) {

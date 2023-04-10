@@ -22,10 +22,10 @@ export class AuthorService {
     return this.AuthorsRepository.findOneBy({ id });
   }
 
-  // async create(author: Author): Promise<Author> {
-  //   const createdAuthor = new this.AuthorsRepository(author);
-  //   return createdAuthor.save();
-  // }
+  async create(author: Author): Promise<Author> {
+    // const createdAuthor = this.AuthorsRepository();
+    return this.AuthorsRepository.save(author);
+  }
 
   // async update(id: string, author: Author): Promise<Author> {
   //   await this.AuthorsRepository.findByIdAndUpdate(id, author);

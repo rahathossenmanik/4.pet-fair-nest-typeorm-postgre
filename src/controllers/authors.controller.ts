@@ -18,10 +18,10 @@ export class AuthorsController {
     return this.authorsService.findById(id);
   }
 
-  // @Post()
-  // create(@Body() author: Author) {
-  //   return this.authorsService.create(author);
-  // }
+  @Post()
+  create(@Body() author: Author) {
+    return this.authorsService.create(author);
+  }
 
   // @Put(':id')
   // update(@Param('id') id: string, @Body() author: Author) {

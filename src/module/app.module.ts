@@ -1,4 +1,9 @@
-require('dotenv').config({ path: '.env' });
+require('dotenv').config({
+  path: '.env'
+});
+require('dotenv').config({
+  path: `.env.${process.env.NODE_ENV}`
+});
 import { Module } from '@nestjs/common';
 import { AuthorsController } from 'src/controllers/authors.controller';
 import { AuthorService } from 'src/services/authors.service';

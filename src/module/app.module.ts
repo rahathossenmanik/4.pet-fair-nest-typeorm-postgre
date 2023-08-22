@@ -9,11 +9,13 @@ import { Author } from 'src/entities/authors.entity';
 import { Book } from 'src/entities/books.entity';
 import { DataSource } from 'typeorm';
 
+const DB_URL = process.env.DATABASE_URL;
+
 @Module({
   imports: [
     TypeOrmModule.forRoot({
       type: 'postgres',
-      url: 'postgres://postgres:admin@localhost/mern-mvc-crud',
+      url: DB_URL,
       entities: [Author, Book],
       synchronize: true
     }),

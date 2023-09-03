@@ -1,18 +1,16 @@
-require('dotenv').config({
-  path: '.env'
-});
-require('dotenv').config({
-  path: `.env.${process.env.NODE_ENV}`
-});
-import { Module } from '@nestjs/common';
-import { AuthorsController } from 'src/controllers/authors.controller';
-import { AuthorService } from 'src/services/authors.service';
-import { BooksController } from 'src/controllers/books.controller';
-import { BookService } from 'src/services/books.service';
-import { TypeOrmModule } from '@nestjs/typeorm';
-import { Author } from 'src/entities/authors.entity';
-import { Book } from 'src/entities/books.entity';
+require('dotenv').config({ path: '.env' });
 import { DataSource } from 'typeorm';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { Module } from '@nestjs/common';
+import { CharactersController } from 'src/controllers/character.controller';
+import { PetTypesController } from 'src/controllers/petType.controller';
+import { PetsController } from 'src/controllers/pet.controller';
+import { CharacterService } from 'src/services/character.service';
+import { PetTypeService } from 'src/services/petType.service';
+import { PetService } from 'src/services/pet.service';
+import { Character } from 'src/entities/character.entity';
+import { PetType } from 'src/entities/petType.entity';
+import { Pet } from 'src/entities/pet.entity';
 
 const DB_URL = process.env.DATABASE_URL;
 
@@ -21,13 +19,13 @@ const DB_URL = process.env.DATABASE_URL;
     TypeOrmModule.forRoot({
       type: 'postgres',
       url: DB_URL,
-      entities: [Author, Book],
-      synchronize: true
+      entities: [Character, PetType, Pet],
+      synchronize: true,
     }),
-    TypeOrmModule.forFeature([Author, Book])
+    TypeOrmModule.forFeature([Character, PetType, Pet]),
   ],
-  controllers: [AuthorsController, BooksController],
-  providers: [AuthorService, BookService]
+  controllers: [CharactersController, PetTypesController, PetsController],
+  providers: [CharacterService, PetTypeService, PetService],
 })
 export class AppModule {
   constructor(private dataSource: DataSource) {}
